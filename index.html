@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Rylan - User Feedback Forum</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f7f9fc;
+            color: #333;
+            padding: 20px;
+            max-width: 800px;
+            margin: auto;
+        }
+
+        h1, h2 {
+            color: #2c3e50;
+        }
+
+        textarea, input, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #3498db;
+            color: white;
+            cursor: pointer;
+            border: none;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        .comment {
+            background-color: #fff;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+            border-radius: 4px;
+        }
+
+        .comment strong {
+            color: #2c3e50;
+        }
+
+        pre {
+            background-color: #f5f5f5;
+            padding: 10px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            border-radius: 4px;
+        }
+
+        .download-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #2ecc71;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+
+        .download-btn:hover {
+            background-color: #27ae60;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Rylan</h1>
+<p>Submit feedback or suggestions below:</p>
+
+<form id="commentForm">
+    <input type="text" id="author" placeholder="Your name (optional)" />
+    <input type="text" id="profileId" placeholder="Profile ID (optional)" />
+    <textarea id="content" placeholder="Write your suggestion..." required></textarea>
+    <button type="submit">Post Comment</button>
+</form>
+
+<h2>Recent Comments</h2>
+<div id="comments"></div>
+
+<a href="/comments/download" class="download-btn">Download All Comments</a>
+
+<script>
+    async function fetchComments() {
+        const res = await fetch("/comments");
+        const data = await res.json();
+        const container = document.getElementById("comments");
+        container.innerHTML = "";
+
+        data.forEach(c => {
+            const div = document.createElement("div");
+            div.className = "comment";
+            div.innerHTML = `
+                <strong>${c.author || 'Anonymous'}</strong> • ${new Date(c.timestamp).toLocaleString()}<br/>
+                <pre>${c.content}</pre>
+            `;
+            container.appendChild(div);
+        });
+    }
+
+    document.getElementById("commentForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const payload = {
+            author: document.getElementById("author").value || "Anonymous",
+            content: document.getElementById("content").value,
+            profile_id: document.getElementById("profileId").value || "general"
+        };
+
+        await fetch("/comments", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload)
+        });
+
+        fetchComments();
+        document.getElementById("commentForm").reset();
+    });
+
+    window.onload = fetchComments;
+</script>
+
+</body>
+</html>

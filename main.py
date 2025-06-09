@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException, Response
 from pydantic import BaseModel
 from datetime import datetime
 from typing import List
+from fastapi.staticfiles import StaticFiles
 
 app = FastAPI()
 
@@ -23,14 +24,6 @@ class CommentOut(BaseModel):
 
 # Counter for unique IDs
 comment_counter = 0
-
-@app.get("/")
-def health_check():
-    """
-    Basic health check endpoint.
-    Useful for deployment platforms that ping `/` to verify app is running.
-    """
-    return {"status": "ok", "message": "Rylan backend is running"}
 
 @app.post("/comments", response_model=CommentOut)
 async def add_comment(comment: CommentCreate):
@@ -69,11 +62,7 @@ async def download_comments():
     return Response(content=text_output, media_type="text/plain", headers=headers)
 
 # Serve static files from dist/
-from fastapi.staticfiles import StaticFiles
-try:
-    app.mount("/", StaticFiles(directory="dist", html=True), name="static")
-except RuntimeError as e:
-    print(f"[ERROR] 'dist/' directory not found. Serving only API routes. Error: {e}")
+app.mount("/", StaticFiles(directory="dist", html=True), name="static")
 
 if __name__ == "__main__":
     import uvicorn
