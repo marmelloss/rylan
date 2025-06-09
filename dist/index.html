@@ -1,58 +1,12 @@
+cat > dist/index.html <<EOL
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Rylan - Watermark Evasion Tool</title>
-  <style>
-    body { font-family: Arial; padding: 20px; }
-    textarea, pre { width: 100%; height: 150px; }
-  </style>
+    <meta charset="UTF-8">
+    <title>Rylan</title>
 </head>
 <body>
-  <h1>Rylan - Watermark Evasion Tool</h1>
-  <textarea id="inputText" placeholder="Enter your text here..."></textarea>
-  <button onclick="bypassWatermark()">Bypass Watermark</button>
-  <button onclick="downloadFile()">Download Output</button>
-
-  <h2>Processed Text (Base64):</h2>
-  <pre id="outputText"></pre>
-
-  <h2>Embedded Unicode Hash:</h2>
-  <pre id="unicodeHash"></pre>
-
-  <script>
-    async function bypassWatermark() {
-      const inputText = document.getElementById("inputText").value;
-
-      const response = await fetch("/bypass", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: inputText })
-      });
-
-      const result = await response.json();
-      document.getElementById("outputText").innerText = result.processed_text;
-      document.getElementById("unicodeHash").innerText = atob(result.unicode_hash);
-    }
-
-    async function downloadFile() {
-      const inputText = document.getElementById("inputText").value;
-
-      const response = await fetch("/download", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: inputText })
-      });
-
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'output.txt';
-      a.click();
-      a.remove();
-    }
-  </script>
+    <h1>Hello from Rylan</h1>
 </body>
 </html>
+EOL

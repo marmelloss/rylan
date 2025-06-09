@@ -1,3 +1,5 @@
+cat > requirements.txt <<EOL
 fastapi
 uvicorn
 pydantic
+EOL
