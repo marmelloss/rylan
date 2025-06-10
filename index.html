@@ -2,23 +2,84 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
+    <title>Rylan - Intelligent Dating Discovery</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Rylan - User Feedback Forum</title>
     <style>
         body {
-            font-family: 'Segoe UI', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
             background-color: #f7f9fc;
             color: #333;
-            padding: 20px;
-            max-width: 800px;
-            margin: auto;
+            line-height: 1.6;
         }
 
-        h1, h2 {
+        header {
+            background-color: #ffffff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            padding: 20px 40px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2rem;
             color: #2c3e50;
         }
 
-        textarea, input, button {
+        header p {
+            margin-top: 10px;
+            font-size: 1.1rem;
+            color: #555;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        section {
+            margin-bottom: 40px;
+        }
+
+        h2 {
+            color: #2c3e50;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 10px;
+        }
+
+        p {
+            font-size: 1.1rem;
+        }
+
+        ul.highlight {
+            background-color: #eef6ff;
+            padding: 15px;
+            border-radius: 8px;
+            list-style: disc inside;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        img {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 1px 5px rgba(0,0,0,0.05);
+        }
+
+        input, textarea, button {
             width: 100%;
             padding: 10px;
             margin-top: 10px;
@@ -32,10 +93,15 @@
             color: white;
             cursor: pointer;
             border: none;
+            transition: background 0.3s ease;
         }
 
         button:hover {
             background-color: #2980b9;
+        }
+
+        .comments {
+            margin-top: 30px;
         }
 
         .comment {
@@ -51,12 +117,19 @@
             color: #2c3e50;
         }
 
+        .comment em {
+            color: #777;
+            display: block;
+            margin-top: 5px;
+        }
+
         pre {
             background-color: #f5f5f5;
             padding: 10px;
             white-space: pre-wrap;
             word-wrap: break-word;
             border-radius: 4px;
+            margin-top: 10px;
         }
 
         .download-btn {
@@ -67,29 +140,107 @@
             color: white;
             text-decoration: none;
             border-radius: 4px;
+            transition: background 0.3s ease;
         }
 
         .download-btn:hover {
             background-color: #27ae60;
         }
+
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            font-size: 0.9rem;
+            color: #777;
+        }
     </style>
 </head>
 <body>
 
-<h1>Rylan</h1>
-<p>Submit feedback or suggestions below:</p>
+<header>
+    <h1>Rylan</h1>
+    <p>Modern Dating with Intelligent Matching</p>
+</header>
 
-<form id="commentForm">
-    <input type="text" id="author" placeholder="Your name (optional)" />
-    <input type="text" id="profileId" placeholder="Profile ID (optional)" />
-    <textarea id="content" placeholder="Write your suggestion..." required></textarea>
-    <button type="submit">Post Comment</button>
-</form>
+<main>
+    <section>
+        <h2>About Rylan</h2>
+        <p>
+            Rylan is a next-generation social and dating application designed to enhance user discovery through intelligent algorithms and advanced machine learning. It offers a seamless experience from onboarding to matching, focusing on meaningful connections over random swipes.
+        </p>
+    </section>
 
-<h2>Recent Comments</h2>
-<div id="comments"></div>
+    <section>
+        <h2>What Makes Rylan Unique?</h2>
+        <p>
+            Unlike traditional platforms that rely solely on preferences and proximity, Rylan introduces dynamic, data-driven discovery methods:
+        </p>
+        <ul class="highlight">
+            <li><strong>Advanced Matching Algorithms:</strong> Uses Branch & Bound, Monte Carlo Simulation, PageRank, MST, and ART Clustering to deliver smarter matches.</li>
+            <li><strong>Real-Time Image Understanding:</strong> Integrates YOLOv8, DeepLabV3, and Apple Vision Framework for smart image processing and context-aware suggestions.</li>
+            <li><strong>Dynamic Radius Expansion:</strong> Automatically adjusts match radius based on availability while maintaining quality standards.</li>
+            <li><strong>User Behavior Learning:</strong> Analyzes viewing time, likes, and interactions to refine future recommendations.</li>
+        </ul>
+    </section>
 
-<a href="/comments/download" class="download-btn">Download All Comments</a>
+    <section>
+        <h2>Tailored Experience</h2>
+        <p>
+            Rylan adapts to each user’s behavior and preferences in real-time. By combining probabilistic ranking with multi-field examples and prototype modeling, it ensures users are shown profiles that align closely with their interests and engagement history.
+        </p>
+    </section>
+
+    <section>
+        <h2>Why It Matters</h2>
+        <p>
+            In an age where attention spans are short and choices are overwhelming, Rylan focuses on reducing noise and increasing relevance. Its approach mirrors modern tech trends — intelligent, scalable, and deeply personalized — all while maintaining simplicity in design and interaction.
+        </p>
+    </section>
+
+    <!-- Algorithm Visualizations -->
+    <section>
+        <h2>Algorithm Visualizations</h2>
+        <p>Below are visualizations of key algorithms used in Rylan:</p>
+        <div class="gallery">
+            <img src="/static/algo1.png" alt="Algorithm 1">
+            <img src="/static/algo2.png" alt="Algorithm 2">
+            <img src="/static/algo3.png" alt="Algorithm 3">
+            <img src="/static/algo4.png" alt="Algorithm 4">
+            <img src="/static/algo5.png" alt="Algorithm 5">
+            <img src="/static/algo6.png" alt="Algorithm 6">
+            <img src="/static/algo7.png" alt="Algorithm 7">
+            <img src="/static/algo8.png" alt="Algorithm 8">
+            <img src="/static/algo9.png" alt="Algorithm 9">
+            <img src="/static/algo10.png" alt="Algorithm 10">
+            <img src="/static/algo11.png" alt="Algorithm 11">
+            <img src="/static/algo12.png" alt="Algorithm 12">
+            <img src="/static/algo13.png" alt="Algorithm 13">
+        </div>
+    </section>
+
+    <!-- Feedback Section -->
+    <section>
+        <h2>Share Your Feedback</h2>
+        <div class="form-container">
+            <form id="commentForm">
+                <input type="text" id="author" placeholder="Your name (optional)" />
+                <input type="text" id="profileId" placeholder="Profile ID (optional)" />
+                <textarea id="content" placeholder="Write your suggestion or improvement..." required></textarea>
+                <button type="submit">Post Comment</button>
+            </form>
+        </div>
+
+        <div class="comments" id="comments">
+            <!-- Comments will be inserted here -->
+        </div>
+
+        <a href="/comments/download" class="download-btn">Download All Comments</a>
+    </section>
+</main>
+
+<footer>
+    &copy; 2025 Rylan. All rights reserved.
+</footer>
 
 <script>
     async function fetchComments() {
@@ -103,6 +254,7 @@
             div.className = "comment";
             div.innerHTML = `
                 <strong>${c.author || 'Anonymous'}</strong> • ${new Date(c.timestamp).toLocaleString()}<br/>
+                <em>Profile: ${c.profile_id}</em><br/>
                 <pre>${c.content}</pre>
             `;
             container.appendChild(div);

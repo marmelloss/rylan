@@ -6,6 +6,9 @@ from fastapi.staticfiles import StaticFiles
 
 app = FastAPI()
 
+# Serve static files (images)
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
 # In-memory comment storage (resets on server restart)
 comments_db = []
 
@@ -61,8 +64,8 @@ async def download_comments():
     }
     return Response(content=text_output, media_type="text/plain", headers=headers)
 
-# Serve static files from dist/
-app.mount("/", StaticFiles(directory="dist", html=True), name="static")
+# Serve frontend HTML
+app.mount("/", StaticFiles(directory="dist", html=True), name="frontend")
 
 if __name__ == "__main__":
     import uvicorn
