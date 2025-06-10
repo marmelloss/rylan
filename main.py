@@ -10,33 +10,50 @@ import os
 
 app = FastAPI()
 
+# Get the base directory where main.py is located
+BASE_DIR = Path(__file__).parent
+
 # --- Runtime Debug Info ---
+print("="*50)
 print("Current working directory:", os.getcwd())
+print("Base directory (where main.py is):", BASE_DIR)
+print("Absolute path to templates:", BASE_DIR / "templates")
+print("Absolute path to static:", BASE_DIR / "static")
 print("Directory contents:")
-for root, dirs, files in os.walk("."):
+for root, dirs, files in os.walk(BASE_DIR):
     print(f"DIR: {root}")
-    for d in dirs:
-        print(f" [D] {d}")
     for f in files:
         print(f" [F] {f}")
 
 # Serve static files (images and CSS/JS)
+static_dir = BASE_DIR / "static"
 try:
-    app.mount("/static", StaticFiles(directory="static"), name="static")
+    if static_dir.exists():
+        app.mount("/static", StaticFiles(directory=str(static_dir)), name="static")
+        print(f"Successfully mounted static files from: {static_dir}")
+    else:
+        print(f"Static directory not found at: {static_dir}")
 except Exception as e:
     print("Failed to mount /static:", str(e))
 
-# Setup templates
+# Setup templates with absolute path
+templates_dir = BASE_DIR / "templates"
 try:
-    templates = Jinja2Templates(directory="templates")
+    if templates_dir.exists():
+        templates = Jinja2Templates(directory=str(templates_dir))
+        print(f"Templates loaded from: {templates_dir}")
+        print("Template files available:", [f.name for f in templates_dir.glob('*')])
+    else:
+        print(f"Templates directory not found at: {templates_dir}")
+        raise FileNotFoundError(f"Templates directory missing: {templates_dir}")
 except Exception as e:
     print("Failed to load templates:", str(e))
-
+    raise  # Re-raise the exception since templates are critical
 
 # In-memory comment storage (resets on server restart)
 comments_db = []
 
-# Models
+# Models (unchanged)
 class CommentCreate(BaseModel):
     author: str
     content: str
@@ -52,6 +69,7 @@ class CommentOut(BaseModel):
 # Counter for unique IDs
 comment_counter = 0
 
+# Routes (unchanged except for serve_home)
 @app.post("/comments", response_model=CommentOut)
 async def add_comment(comment: CommentCreate):
     global comment_counter
@@ -88,14 +106,18 @@ async def download_comments():
     }
     return Response(content=text_output, media_type="text/plain", headers=headers)
 
-
-# Serve the main page with images
+# Updated serve_home endpoint with better error handling
 @app.get("/", response_class=HTMLResponse)
 async def serve_home(request: Request):
     try:
         # Get all algorithm images from static folder
-        static_path = Path("static")
-        algorithm_images = sorted([f"static/{f.name}" for f in static_path.glob("algo*.png")])
+        static_path = BASE_DIR / "static"
+        algorithm_images = []
+        if static_path.exists():
+            algorithm_images = sorted([f"static/{f.name}" for f in static_path.glob("algo*.png")])
+            print(f"Found algorithm images: {algorithm_images}")
+        else:
+            print(f"Static directory not found at: {static_path}")
 
         # Render template
         return templates.TemplateResponse("index.html", {
@@ -104,7 +126,18 @@ async def serve_home(request: Request):
         })
 
     except Exception as e:
-        error_msg = f"<h1>Server Error</h1><pre>{str(e)}</pre>"
-        error_msg += "<h3>Template Dir Exists?</h3><pre>" + str(os.path.exists("templates")) + "</pre>"
-        error_msg += "<h3>Static Dir Exists?</h3><pre>" + str(os.path.exists("static")) + "</pre>"
+        error_msg = f"""
+        <h1>Server Error</h1>
+        <pre>{str(e)}</pre>
+        <h3>Debug Information:</h3>
+        <pre>
+        Base Directory: {BASE_DIR}
+        Template Directory: {templates_dir} (exists: {templates_dir.exists()})
+        Static Directory: {static_dir} (exists: {static_dir.exists()})
+        Current Files:
+        {os.listdir(BASE_DIR)}
+        Template Files:
+        {list(templates_dir.glob('*')) if templates_dir.exists() else 'N/A'}
+        </pre>
+        """
         return HTMLResponse(error_msg, status_code=500)

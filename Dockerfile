@@ -1,13 +1,14 @@
-FROM python:3.10-slim
+FROM python:3.10
 
 WORKDIR /app
 
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Copy ALL files, including templates and static folders
+# Copy all files (adjust as needed)
 COPY . .
 
-EXPOSE 8000
+# Install dependencies
+RUN pip install -r requirements.txt
+
+# Verify the files were copied correctly
+RUN ls -la /app && ls -la /app/templates
 
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
