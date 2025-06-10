@@ -4,16 +4,34 @@ from datetime import datetime
 from typing import List
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, PlainTextResponse
 from pathlib import Path
+import os
 
 app = FastAPI()
 
+# --- Runtime Debug Info ---
+print("Current working directory:", os.getcwd())
+print("Directory contents:")
+for root, dirs, files in os.walk("."):
+    print(f"DIR: {root}")
+    for d in dirs:
+        print(f" [D] {d}")
+    for f in files:
+        print(f" [F] {f}")
+
 # Serve static files (images and CSS/JS)
-app.mount("/static", StaticFiles(directory="static"), name="static")
+try:
+    app.mount("/static", StaticFiles(directory="static"), name="static")
+except Exception as e:
+    print("Failed to mount /static:", str(e))
 
 # Setup templates
-templates = Jinja2Templates(directory="templates")
+try:
+    templates = Jinja2Templates(directory="templates")
+except Exception as e:
+    print("Failed to load templates:", str(e))
+
 
 # In-memory comment storage (resets on server restart)
 comments_db = []
@@ -70,17 +88,23 @@ async def download_comments():
     }
     return Response(content=text_output, media_type="text/plain", headers=headers)
 
+
 # Serve the main page with images
 @app.get("/", response_class=HTMLResponse)
 async def serve_home(request: Request):
-    # Get all algorithm images from static folder
-    static_path = Path("static")
-    algorithm_images = sorted([f"static/{f.name}" for f in static_path.glob("algo*.png")])
-    return templates.TemplateResponse("index.html", {
-        "request": request,
-        "algorithm_images": algorithm_images
-    })
+    try:
+        # Get all algorithm images from static folder
+        static_path = Path("static")
+        algorithm_images = sorted([f"static/{f.name}" for f in static_path.glob("algo*.png")])
 
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+        # Render template
+        return templates.TemplateResponse("index.html", {
+            "request": request,
+            "algorithm_images": algorithm_images
+        })
+
+    except Exception as e:
+        error_msg = f"<h1>Server Error</h1><pre>{str(e)}</pre>"
+        error_msg += "<h3>Template Dir Exists?</h3><pre>" + str(os.path.exists("templates")) + "</pre>"
+        error_msg += "<h3>Static Dir Exists?</h3><pre>" + str(os.path.exists("static")) + "</pre>"
+        return HTMLResponse(error_msg, status_code=500)
