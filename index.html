@@ -33,6 +33,22 @@
             color: #555;
         }
 
+        .banner {
+            width: 100%;
+            overflow: hidden;
+            background-color: #eaf2ff;
+            padding: 20px;
+        }
+
+        .banner img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
         main {
             max-width: 900px;
             margin: 40px auto;
@@ -66,85 +82,12 @@
             gap: 20px;
         }
 
-        img {
+        img.gallery-img {
             width: 100%;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .form-container {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 1px 5px rgba(0,0,0,0.05);
-        }
-
-        input, textarea, button {
-            width: 100%;
-            padding: 10px;
-            margin-top: 10px;
-            font-size: 1rem;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-        button {
-            background-color: #3498db;
-            color: white;
-            cursor: pointer;
-            border: none;
-            transition: background 0.3s ease;
-        }
-
-        button:hover {
-            background-color: #2980b9;
-        }
-
-        .comments {
-            margin-top: 30px;
-        }
-
-        .comment {
-            background-color: #fff;
-            border-left: 4px solid #3498db;
-            padding: 15px;
-            margin-bottom: 15px;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.05);
-            border-radius: 4px;
-        }
-
-        .comment strong {
-            color: #2c3e50;
-        }
-
-        .comment em {
-            color: #777;
-            display: block;
-            margin-top: 5px;
-        }
-
-        pre {
-            background-color: #f5f5f5;
-            padding: 10px;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            border-radius: 4px;
-            margin-top: 10px;
-        }
-
-        .download-btn {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 10px 20px;
-            background-color: #2ecc71;
-            color: white;
-            text-decoration: none;
-            border-radius: 4px;
-            transition: background 0.3s ease;
-        }
-
-        .download-btn:hover {
-            background-color: #27ae60;
+            height: 150px;
+            object-fit: cover;
         }
 
         footer {
@@ -162,128 +105,60 @@
     <p>Modern Dating with Intelligent Matching</p>
 </header>
 
+<div class="banner">
+    <img src="sample-algorithm-banner.jpg" alt="Sample algorithm visualizations for reference">
+</div>
+
 <main>
     <section>
         <h2>About Rylan</h2>
         <p>
-            Rylan is a next-generation social and dating application designed to enhance user discovery through intelligent algorithms and advanced machine learning. It offers a seamless experience from onboarding to matching, focusing on meaningful connections over random swipes.
+            Rylan is a social and dating application designed to help users discover meaningful connections through intelligent matching systems. It supports a smooth experience from onboarding to finding matches, with a focus on relevance and simplicity.
         </p>
     </section>
 
     <section>
-        <h2>What Makes Rylan Unique?</h2>
+        <h2>How Rylan Works</h2>
         <p>
-            Unlike traditional platforms that rely solely on preferences and proximity, Rylan introduces dynamic, data-driven discovery methods:
+            Rylan uses a variety of methods to support profile discovery and connection suggestions:
         </p>
         <ul class="highlight">
-            <li><strong>Advanced Matching Algorithms:</strong> Uses Branch & Bound, Monte Carlo Simulation, PageRank, MST, and ART Clustering to deliver smarter matches.</li>
-            <li><strong>Real-Time Image Understanding:</strong> Integrates YOLOv8, DeepLabV3, and Apple Vision Framework for smart image processing and context-aware suggestions.</li>
-            <li><strong>Dynamic Radius Expansion:</strong> Automatically adjusts match radius based on availability while maintaining quality standards.</li>
-            <li><strong>User Behavior Learning:</strong> Analyzes viewing time, likes, and interactions to refine future recommendations.</li>
+            <li><strong>Matching Algorithms:</strong> Implements techniques such as Branch & Bound, Monte Carlo Simulation, PageRank, MST, and ART Clustering.</li>
+            <li><strong>Image Processing:</strong> Incorporates tools like YOLOv8, DeepLabV3, and Apple Vision Framework to provide context-aware insights.</li>
+            <li><strong>Radius Expansion:</strong> Adjusts search radius over time to help users connect within reasonable proximity.</li>
+            <li><strong>Behavior Analysis:</strong> Looks at how users interact—such as time spent viewing and liking—to adjust future recommendations.</li>
         </ul>
     </section>
 
     <section>
         <h2>Tailored Experience</h2>
         <p>
-            Rylan adapts to each user’s behavior and preferences in real-time. By combining probabilistic ranking with multi-field examples and prototype modeling, it ensures users are shown profiles that align closely with their interests and engagement history.
+            Rylan adapts to each user's interaction patterns. It uses probabilistic ranking, multi-field modeling, and examples to help present profiles that are relevant to individual interests.
         </p>
     </section>
 
     <section>
         <h2>Why It Matters</h2>
         <p>
-            In an age where attention spans are short and choices are overwhelming, Rylan focuses on reducing noise and increasing relevance. Its approach mirrors modern tech trends — intelligent, scalable, and deeply personalized — all while maintaining simplicity in design and interaction.
+            With countless profiles available, Rylan emphasizes relevance and ease of use. The design and interaction model aim to keep the experience focused, intuitive, and adaptable.
         </p>
     </section>
 
     <!-- Algorithm Visualizations -->
     <section>
         <h2>Algorithm Visualizations</h2>
-        <p>Below are visualizations of key algorithms used in Rylan:</p>
+        <p>Below are visualizations of methods and techniques used within the application:</p>
         <div class="gallery">
-            <img src="/static/algo1.png" alt="Algorithm 1">
-            <img src="/static/algo2.png" alt="Algorithm 2">
-            <img src="/static/algo3.png" alt="Algorithm 3">
-            <img src="/static/algo4.png" alt="Algorithm 4">
-            <img src="/static/algo5.png" alt="Algorithm 5">
-            <img src="/static/algo6.png" alt="Algorithm 6">
-            <img src="/static/algo7.png" alt="Algorithm 7">
-            <img src="/static/algo8.png" alt="Algorithm 8">
-            <img src="/static/algo9.png" alt="Algorithm 9">
-            <img src="/static/algo10.png" alt="Algorithm 10">
-            <img src="/static/algo11.png" alt="Algorithm 11">
-            <img src="/static/algo12.png" alt="Algorithm 12">
-            <img src="/static/algo13.png" alt="Algorithm 13">
+            {% for image in algorithm_images %}
+            <img class="gallery-img" src="{{ image }}" alt="Algorithm Visualization">
+            {% endfor %}
         </div>
-    </section>
-
-    <!-- Feedback Section -->
-    <section>
-        <h2>Share Your Feedback</h2>
-        <div class="form-container">
-            <form id="commentForm">
-                <input type="text" id="author" placeholder="Your name (optional)" />
-                <input type="text" id="profileId" placeholder="Profile ID (optional)" />
-                <textarea id="content" placeholder="Write your suggestion or improvement..." required></textarea>
-                <button type="submit">Post Comment</button>
-            </form>
-        </div>
-
-        <div class="comments" id="comments">
-            <!-- Comments will be inserted here -->
-        </div>
-
-        <a href="/comments/download" class="download-btn">Download All Comments</a>
     </section>
 </main>
 
 <footer>
     &copy; 2025 Rylan. All rights reserved.
 </footer>
-
-<script>
-    async function fetchComments() {
-        const res = await fetch("/comments");
-        const data = await res.json();
-        const container = document.getElementById("comments");
-        container.innerHTML = "";
-
-        data.forEach(c => {
-            const div = document.createElement("div");
-            div.className = "comment";
-            div.innerHTML = `
-                <strong>${c.author || 'Anonymous'}</strong> • ${new Date(c.timestamp).toLocaleString()}<br/>
-                <em>Profile: ${c.profile_id}</em><br/>
-                <pre>${c.content}</pre>
-            `;
-            container.appendChild(div);
-        });
-    }
-
-    document.getElementById("commentForm").addEventListener("submit", async (e) => {
-        e.preventDefault();
-
-        const payload = {
-            author: document.getElementById("author").value || "Anonymous",
-            content: document.getElementById("content").value,
-            profile_id: document.getElementById("profileId").value || "general"
-        };
-
-        await fetch("/comments", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(payload)
-        });
-
-        fetchComments();
-        document.getElementById("commentForm").reset();
-    });
-
-    window.onload = fetchComments;
-</script>
 
 </body>
 </html>

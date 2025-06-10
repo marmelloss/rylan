@@ -1,13 +1,19 @@
-from fastapi import FastAPI, HTTPException, Response
+from fastapi import FastAPI, HTTPException, Response, Request
 from pydantic import BaseModel
 from datetime import datetime
 from typing import List
 from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
+from fastapi.responses import HTMLResponse
+from pathlib import Path
 
 app = FastAPI()
 
-# Serve static files (images)
+# Serve static files (images and CSS/JS)
 app.mount("/static", StaticFiles(directory="static"), name="static")
+
+# Setup templates
+templates = Jinja2Templates(directory="templates")
 
 # In-memory comment storage (resets on server restart)
 comments_db = []
@@ -64,8 +70,16 @@ async def download_comments():
     }
     return Response(content=text_output, media_type="text/plain", headers=headers)
 
-# Serve frontend HTML
-app.mount("/", StaticFiles(directory="dist", html=True), name="frontend")
+# Serve the main page with images
+@app.get("/", response_class=HTMLResponse)
+async def serve_home(request: Request):
+    # Get all algorithm images from static folder
+    static_path = Path("static")
+    algorithm_images = sorted([f"static/{f.name}" for f in static_path.glob("algo*.png")])
+    return templates.TemplateResponse("index.html", {
+        "request": request,
+        "algorithm_images": algorithm_images
+    })
 
 if __name__ == "__main__":
     import uvicorn
